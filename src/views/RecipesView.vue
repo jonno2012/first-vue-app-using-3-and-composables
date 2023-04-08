@@ -7,7 +7,7 @@ let recipes = ref([])
 
 function addRecipe(r) {
   addStorageItemByKey({name: r.name, summary: r.summary, key: r.key, steps: r.steps}, 'recipes')
-  recipes.value = [...recipes.value, ...getStorageItemsByKey('recipes')]
+  recipes.value = getStorageItemsByKey('recipes')
 }
 
 fetch('http://localhost:3001/recipes')

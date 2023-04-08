@@ -3,7 +3,6 @@ import {ref} from "vue"
 
 let name = ref('')
 let summary = ref('')
-let ingredients = ref([])
 let key = ref('')
 let steps = ref([])
 let newStep = ref('')
@@ -27,19 +26,10 @@ function addStep() {
   newStep.value = ''
 }
 
-// function submitRecipe() {
-//   this.$emit('addRecipe', recipe.value)
-//   // submitting.value = true
-//   recipeSubmitted.value = false
-//   // setTimeout(() => window.location = '/recipes', 2000)
-// }
+let emit = defineEmits(['updateRecipe']);
+
 </script>
 
-<script>
-export default {
-  emits: ['addRecipe']
-}
-</script>
 <template>
   <section>
     <div class="block">
@@ -102,7 +92,7 @@ export default {
         </div>
       </div>
       <div class="formGroup">
-        <button @click="$emit('addRecipe', recipe); recipeSubmitted = false;">Confirm</button>
+        <button @click="emit('addRecipe', recipe); recipeSubmitted = false;">Confirm</button>
       </div>
 
     </div>
