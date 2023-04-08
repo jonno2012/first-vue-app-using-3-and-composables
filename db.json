@@ -1,0 +1,18 @@
+{
+  "recipes": [
+    {
+      "name": "Angel Cakes",
+      "summary": "Light and fluffy, this delicious cake will provide the perfect treat for all the family",
+      "steps": [
+        "Mix batter", "Stick in the oven", "Simply enjoy"
+      ]
+    },
+    {
+      "name": "Granny's dumplings",
+      "summary": "Like Granny, these dumplings are stoggie and sweet. Enjoy in moderation.",
+      "steps": [
+        "Mix batter", "Add suet", "Steam for 20 minutes", "Serve and enjoy"
+      ]
+    }
+  ]
+}
