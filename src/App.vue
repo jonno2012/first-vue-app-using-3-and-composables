@@ -1,6 +1,12 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import {provide, ref} from "vue";
 import HelloWorld from './components/HelloWorld.vue'
+import Footer from "@/components/Footer.vue";
+
+let footerLinks = ref([{id:1, href:"https://www.bbc.co.uk", "text": "BBC Homepage"}]);
+provide('footerLinks', footerLinks)
+
 </script>
 
 <template>
@@ -20,6 +26,12 @@ import HelloWorld from './components/HelloWorld.vue'
   </header>
 
   <RouterView />
+
+  <ul v-if="footerLinks.length">
+    <li v-for="link in footerLinks" :key="link.id">{{ link.text }}</li>
+  </ul>
+
+  <Footer />
 </template>
 
 <style scoped>
