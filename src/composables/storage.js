@@ -6,7 +6,15 @@ export function addStorageItemByKey(newStorageItem, key = null) {
 
 export function getStorageItemsByKey(key) {
     let existingRecipes = JSON.parse(localStorage.getItem(key))
-        return existingRecipes
-            ? existingRecipes
-            : []
+    return existingRecipes
+        ? existingRecipes
+        : []
+}
+
+export function removeItemByKey(itemKey, key) {
+    let existingItems = getStorageItemsByKey(key)
+    existingItems = existingItems.filter((i) => {
+        return i.key !== itemKey
+    })
+    localStorage.setItem(key, JSON.stringify(existingItems))
 }

@@ -1,5 +1,5 @@
 import { reactive} from "vue";
-import { getStorageItemsByKey, addStorageItemByKey } from '@/composables/storage'
+import { removeItemByKey, addStorageItemByKey } from '@/composables/storage'
 
 export let recipes = reactive({
     recipes: [],
@@ -11,5 +11,13 @@ export let recipes = reactive({
 
     setRecipes(recipes) {
         this.recipes = recipes
+    },
+
+    removeRecipe(recipe) {
+        this.recipes = this.recipes.filter((r) => {
+            return r.key !== recipe.key
+        })
+
+        removeItemByKey(recipe.key, 'recipes')
     }
 })

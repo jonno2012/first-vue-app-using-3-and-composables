@@ -1,8 +1,8 @@
 <script setup>
 // import { ref } from "vue"
 import AddRecipeView from "@/views/AddRecipeView.vue";
-import { getStorageItemsByKey, addStorageItemByKey } from '@/composables/storage'
-import { recipes } from "@/stores/recipeStore";
+import {getStorageItemsByKey, addStorageItemByKey} from '@/composables/storage'
+import {recipes} from "@/stores/recipeStore";
 
 // let recipes = ref([])
 
@@ -23,14 +23,20 @@ fetch('http://localhost:3001/recipes')
     <div v-if="recipes.recipes.length" class="block">
       <h4>Recipes</h4>
       <ul>
-        <li v-for="recipe in recipes.recipes" :key="recipe.key">{{ recipe.name }}</li>
+        <li v-for="recipe in recipes.recipes" :key="recipe.key">
+          {{ recipe.name }}
+          <button
+              v-show="! recipe.default"
+              @click="recipes.removeRecipe(recipe)"
+          >x
+          </button>
+        </li>
       </ul>
     </div>
 
-  <AddRecipeView @addRecipe="addRecipe" test-prop="A Test Prop"></AddRecipeView>
+    <AddRecipeView @addRecipe="addRecipe" test-prop="A Test Prop"></AddRecipeView>
 
   </section>
-
 
 
 </template>
@@ -48,7 +54,10 @@ fetch('http://localhost:3001/recipes')
   display: block;
   margin: 1em 0;
 }
-h4{ font-weight: bold;}
+
+h4 {
+  font-weight: bold;
+}
 
 
 </style>
