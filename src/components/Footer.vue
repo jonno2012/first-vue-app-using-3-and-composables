@@ -1,6 +1,8 @@
 <template>
 
-  <FooterLinks />
+  <FooterLinks>
+    <template #footerHeader>Footer Header Override</template>
+  </FooterLinks>
 </template>
 
 <script setup>
