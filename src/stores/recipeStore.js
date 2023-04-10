@@ -1,38 +1,39 @@
-import {reactive, watch} from "vue";
+import {watch} from "vue";
 import {getStorageItemsByKey} from '@/composables/storage'
+import {defineStore} from "pinia"
 
-export let recipes = reactive({
-    recipes: fetch('http://localhost:3001/recipes')
-        .then(response => response.json())
-        .then(r => {
+export let useRecipeStore = defineStore('recipes', {
+    state: () => ({
+        recipes: []
+    }),
+    actions: {
+        async fill() {
+            let response = await fetch('http://localhost:3001/recipes')
+            let r = await response.json()
             let g = getStorageItemsByKey('recipes')
+            this.$state.recipes = [...r, ...g]
 
-            recipes.setRecipes([...r, ...g])
-
-            watch(recipes.recipes, async (newRecipes) => {
-                console.log('newRecipes', newRecipes)
-                localStorage.setItem('recipes', JSON.stringify(recipes.nonDefaultRecipes()))
+            watch(this.$state.recipes, async () => {
+                localStorage.setItem('recipes', JSON.stringify(this.nonDefaultRecipes()))
             })
-        }),
+        },
 
-    addRecipe(r) {
-        this.recipes.push({name: r.name, summary: r.summary, key: r.key, steps: r.steps})
-    },
+        addRecipe(r) {
+            console.log('store addRecipe', {name: r.name, summary: r.summary, key: r.key, steps: r.steps})
+            this.$state.recipes.push({name: r.name, summary: r.summary, key: r.key, steps: r.steps})
+        },
 
-    setRecipes(recipes) {
-        this.recipes = recipes
-    },
+        removeRecipe(recipe) {
+            let index = this.$state.recipes.findIndex((r) => {
+                return r.key === recipe.key
+            })
+            this.$state.recipes.splice(index, 1)
+        },
 
-    removeRecipe(recipe) {
-        let index = this.recipes.findIndex((r) => {
-            return r.key === recipe.key
-        })
-        this.recipes.splice(index, 1)
-    },
-
-    nonDefaultRecipes() {
-        return this.recipes.filter((r) => {
-            return !r.default
-        })
+        nonDefaultRecipes() {
+            return this.$state.recipes.filter((r) => {
+                return !r.default
+            })
+        }
     }
 })

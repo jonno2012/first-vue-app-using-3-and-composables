@@ -3,10 +3,12 @@ import { RouterLink, RouterView } from 'vue-router'
 import {provide, ref} from "vue";
 import HelloWorld from './components/HelloWorld.vue'
 import Footer from "@/components/Footer.vue";
+import {useRecipeStore} from "@/stores/recipeStore";
 
 let footerLinks = ref([{id:1, href:"https://www.bbc.co.uk", "text": "BBC Homepage"}]);
 provide('footerLinks', footerLinks)
 
+useRecipeStore().fill()
 </script>
 
 <template>

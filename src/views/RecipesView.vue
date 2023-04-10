@@ -1,22 +1,24 @@
 <script setup>
 import AddRecipeView from "@/views/AddRecipeView.vue";
-import {recipes} from "@/stores/recipeStore";
+import {useRecipeStore} from "@/stores/recipeStore";
+
+let recipeStore = useRecipeStore()
 
 function addRecipe(r) {
-  recipes.addRecipe({name: r.name, summary: r.summary, key: r.key, steps: r.steps})
+  recipeStore.addRecipe({name: r.name, summary: r.summary, key: r.key, steps: r.steps})
 }
 
 </script>
 <template>
   <section>
-    <div v-if="recipes.recipes.length" class="block">
+    <div v-if="recipeStore.recipes.length" class="block">
       <h4>Recipes</h4>
       <ul>
-        <li v-for="recipe in recipes.recipes" :key="recipe.key">
+        <li v-for="recipe in recipeStore.recipes" :key="recipe.key">
           {{ recipe.name }}
           <button
               v-show="! recipe.default"
-              @click="recipes.removeRecipe(recipe)"
+              @click="recipeStore.removeRecipe(recipe)"
           >x
           </button>
         </li>

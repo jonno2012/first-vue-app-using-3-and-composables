@@ -1,6 +1,7 @@
 <script setup>
-import {recipes} from "@/stores/recipeStore";
+import {useRecipeStore} from "@/stores/recipeStore";
 
+let recipes = useRecipeStore()
 </script>
 
 <template>
