@@ -1,33 +1,33 @@
 <script setup>
-import { ref } from "vue"
+// import { ref } from "vue"
 import AddRecipeView from "@/views/AddRecipeView.vue";
 import { getStorageItemsByKey, addStorageItemByKey } from '@/composables/storage'
+import { recipes } from "@/stores/recipeStore";
 
-let recipes = ref([])
+// let recipes = ref([])
 
 function addRecipe(r) {
-  addStorageItemByKey({name: r.name, summary: r.summary, key: r.key, steps: r.steps}, 'recipes')
-  recipes.value = getStorageItemsByKey('recipes')
+  recipes.addRecipe({name: r.name, summary: r.summary, key: r.key, steps: r.steps})
 }
 
 fetch('http://localhost:3001/recipes')
     .then(response => response.json())
     .then(r => {
       let g = getStorageItemsByKey('recipes')
-      recipes.value = [...r, ...g]
+      recipes.setRecipes([...r, ...g])
     })
 
 </script>
 <template>
   <section>
-    <div v-if="recipes.length" class="block">
+    <div v-if="recipes.recipes.length" class="block">
       <h4>Recipes</h4>
       <ul>
-        <li v-for="recipe in recipes" :key="recipe.key">{{ recipe.name }}</li>
+        <li v-for="recipe in recipes.recipes" :key="recipe.key">{{ recipe.name }}</li>
       </ul>
     </div>
 
-  <AddRecipeView @addRecipe="addRecipe"></AddRecipeView>
+  <AddRecipeView @addRecipe="addRecipe" test-prop="A Test Prop"></AddRecipeView>
 
   </section>
 

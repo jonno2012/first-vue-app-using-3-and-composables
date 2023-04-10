@@ -1,72 +1,66 @@
 <script setup>
 import {ref} from "vue"
 
-let name = ref('')
-let summary = ref('')
-let key = ref('')
-let steps = ref([])
 let newStep = ref('')
-let recipe = ref(null)
 let recipeSubmitted = ref(false)
-function addRecipe() {
-  recipe.value = {
-    name: name.value,
-    summary: summary.value,
-    steps: steps.value,
-    key: key.value
-  }
-  name.value = ''
-  summary.value = ''
-  steps.value = []
-  key.value = ''
-  recipeSubmitted.value = true
+let recipe = ref({steps: []})
+
+let emit = defineEmits(['addRecipe']);
+
+function addRecipe(r) {
+  emit('addRecipe', r)
+  recipe.value = {steps: []}
+  recipeSubmitted.value = false
 }
+
 function addStep() {
-  steps.value.push(newStep.value)
+  recipe.value.steps.push(newStep.value)
   newStep.value = ''
 }
 
-let emit = defineEmits(['updateRecipe']);
+defineProps({
+  'testProp': String,
+})
+
 
 </script>
 
 <template>
   <section>
     <div class="block">
-      <form @submit.prevent="addRecipe"></form>
+      <!--      <form @submit.prevent="addRecipe"></form>-->
       <h3>
         <slot>Add Recipe</slot>
       </h3>
       <div class="formGroup">
         <label for="recipeName">Name</label>
-        <input id="recipeName" type="text" v-model="name" placeholder="Recipe name">
+        <input id="recipeName" type="text" v-model="recipe.name" placeholder="Recipe name">
       </div>
 
       <div class="formGroup">
         <label for="recipeSummary">Summary</label>
-        <textarea @click="addSummary" v-model="summary" name="summary" id="recipeSummary" cols="30"
+        <textarea v-model="recipe.summary" name="summary" id="recipeSummary" cols="30"
                   rows="2"></textarea>
       </div>
 
       <div class="formGroup">
         <label for="key">Key</label>
-        <input id="key" v-model="key" type="text">
+        <input id="key" v-model="recipe.key" type="text">
       </div>
 
       <div class="formGroup">
         <input v-model="newStep" type="text" placeholder="add step...">
         <button @click="addStep">Add</button>
-        <ol v-if="steps.length">
-          <li v-for="step in steps" :key="step">{{ step }}</li>
+        <ol v-if="recipe.steps.length">
+          <li v-for="step in recipe.steps" :key="step">{{ step }}</li>
         </ol>
       </div>
 
       <div class="formGroup">
-        <button @click="addRecipe">Go</button>
+        <button @click="recipeSubmitted = true">Go - {{ testProp }}</button>
       </div>
 
     </div>
-
     <div v-if="recipeSubmitted" class="block">
       <div v-if="recipe.name" class="block">
         <h4>name</h4>
@@ -92,12 +86,11 @@ let emit = defineEmits(['updateRecipe']);
         </div>
       </div>
       <div class="formGroup">
-        <button @click="emit('addRecipe', recipe); recipeSubmitted = false;">Confirm</button>
+        <button @click="addRecipe(recipe)">Confirm</button>
       </div>
 
     </div>
   </section>
-
 
 
 </template>
@@ -115,7 +108,10 @@ let emit = defineEmits(['updateRecipe']);
   display: block;
   margin: 1em 0;
 }
-h4{ font-weight: bold;}
+
+h4 {
+  font-weight: bold;
+}
 
 
 </style>
