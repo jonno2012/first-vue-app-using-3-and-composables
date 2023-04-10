@@ -1,11 +1,21 @@
-import { reactive} from "vue";
-import { removeItemByKey, addStorageItemByKey } from '@/composables/storage'
+import {reactive, watch} from "vue";
+import {getStorageItemsByKey} from '@/composables/storage'
 
 export let recipes = reactive({
-    recipes: [],
+    recipes: fetch('http://localhost:3001/recipes')
+        .then(response => response.json())
+        .then(r => {
+            let g = getStorageItemsByKey('recipes')
+
+            recipes.setRecipes([...r, ...g])
+
+            watch(recipes.recipes, async (newRecipes) => {
+                console.log('newRecipes', newRecipes)
+                localStorage.setItem('recipes', JSON.stringify(recipes.nonDefaultRecipes()))
+            })
+        }),
 
     addRecipe(r) {
-        addStorageItemByKey({name: r.name, summary: r.summary, key: r.key, steps: r.steps}, 'recipes')
         this.recipes.push({name: r.name, summary: r.summary, key: r.key, steps: r.steps})
     },
 
@@ -14,10 +24,15 @@ export let recipes = reactive({
     },
 
     removeRecipe(recipe) {
-        this.recipes = this.recipes.filter((r) => {
-            return r.key !== recipe.key
+        let index = this.recipes.findIndex((r) => {
+            return r.key === recipe.key
         })
+        this.recipes.splice(index, 1)
+    },
 
-        removeItemByKey(recipe.key, 'recipes')
+    nonDefaultRecipes() {
+        return this.recipes.filter((r) => {
+            return !r.default
+        })
     }
 })

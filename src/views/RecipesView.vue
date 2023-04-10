@@ -1,21 +1,10 @@
 <script setup>
-// import { ref } from "vue"
 import AddRecipeView from "@/views/AddRecipeView.vue";
-import {getStorageItemsByKey, addStorageItemByKey} from '@/composables/storage'
 import {recipes} from "@/stores/recipeStore";
-
-// let recipes = ref([])
 
 function addRecipe(r) {
   recipes.addRecipe({name: r.name, summary: r.summary, key: r.key, steps: r.steps})
 }
-
-fetch('http://localhost:3001/recipes')
-    .then(response => response.json())
-    .then(r => {
-      let g = getStorageItemsByKey('recipes')
-      recipes.setRecipes([...r, ...g])
-    })
 
 </script>
 <template>

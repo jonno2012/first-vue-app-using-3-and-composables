@@ -6,7 +6,8 @@
       "steps": [
         "Mix batter", "Stick in the oven", "Simply enjoy"
       ],
-      "default": true
+      "default": true,
+      "key": "angelCakes"
     },
     {
       "name": "Granny's dumplings",
@@ -14,7 +15,8 @@
       "steps": [
         "Mix batter", "Add suet", "Steam for 20 minutes", "Serve and enjoy"
       ],
-      "default": true
+      "default": true,
+      "key": "grannysDumplings"
     }
   ]
 }

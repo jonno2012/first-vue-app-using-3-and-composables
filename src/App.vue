@@ -20,6 +20,7 @@ provide('footerLinks', footerLinks)
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
         <RouterLink to="/recipes">Recipes</RouterLink>
+        <RouterLink to="/recipes-index">Recipes Index</RouterLink>
 <!--        <RouterLink to="/add-recipe">Add Recipe</RouterLink>-->
       </nav>
     </div>
