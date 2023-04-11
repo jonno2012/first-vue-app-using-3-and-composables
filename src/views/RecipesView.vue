@@ -1,12 +1,13 @@
 <script setup>
 import AddRecipeView from "@/views/AddRecipeView.vue";
 import {useRecipeStore} from "@/stores/recipeStore";
+import RecipeModal from "@/components/RecipeModal.vue";
 
 let recipeStore = useRecipeStore()
 
-function addRecipe(r) {
-  recipeStore.addRecipe({name: r.name, summary: r.summary, key: r.key, steps: r.steps})
-}
+// function addRecipe(r) {
+//   recipeStore.addRecipe({name: r.name, summary: r.summary, key: r.key, steps: r.steps})
+// }
 
 </script>
 <template>
@@ -25,7 +26,8 @@ function addRecipe(r) {
       </ul>
     </div>
 
-    <AddRecipeView @addRecipe="addRecipe" test-prop="A Test Prop"></AddRecipeView>
+    <AddRecipeView test-prop="A Test Prop"></AddRecipeView>
+    <RecipeModal/>
 
   </section>
 
